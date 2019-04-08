@@ -1,3 +1,4 @@
+
 import argparse
 import scipy
 from scipy import ndimage
@@ -180,7 +181,6 @@ def main():
     args = get_arguments()
 
     gpu0 = args.gpu
-
     if not os.path.exists(args.save_dir):
         os.makedirs(args.save_dir)
 
@@ -191,7 +191,7 @@ def main():
         args.restore_from = pretrianed_models_dict[args.pretrained_model]
 
     if args.restore_from[:4] == 'http' :
-        saved_state_dict = model_zoo.load_url(args.restore_from)
+        saved_state_dict = model_zoo.load_url(args.restore_from, map_location=torch.device('cuda:1'))
     else:
         saved_state_dict = torch.load(args.restore_from)
     model.load_state_dict(saved_state_dict)
@@ -200,7 +200,7 @@ def main():
     model.cuda(gpu0)
 
     testloader = data.DataLoader(VOCDataSet(args.data_dir, args.data_list, crop_size=(505, 505), mean=IMG_MEAN, scale=False, mirror=False),
-                                    batch_size=1, shuffle=False, pin_memory=True)
+                                    batch_size=1, shuffle=False, pin_memory=False)
 
     if version.parse(torch.__version__) >= version.parse('0.4.0'):
         interp = nn.Upsample(size=(505, 505), mode='bilinear', align_corners=True)
