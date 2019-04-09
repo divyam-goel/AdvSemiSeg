@@ -244,10 +244,10 @@ def main():
 
     if args.partial_data is None:
         trainloader = data.DataLoader(train_dataset,
-                        batch_size=args.batch_size, shuffle=True, num_workers=5, pin_memory=True)
+                        batch_size=args.batch_size, shuffle=True, num_workers=5, pin_memory=False)
 
         trainloader_gt = data.DataLoader(train_gt_dataset,
-                        batch_size=args.batch_size, shuffle=True, num_workers=5, pin_memory=True)
+                        batch_size=args.batch_size, shuffle=True, num_workers=5, pin_memory=False)
     else:
         #sample partial data
         partial_size = int(args.partial_data * train_dataset_size)
@@ -266,11 +266,11 @@ def main():
         train_gt_sampler = data.sampler.SubsetRandomSampler(train_ids[:partial_size])
 
         trainloader = data.DataLoader(train_dataset,
-                        batch_size=args.batch_size, sampler=train_sampler, num_workers=3, pin_memory=True)
+                        batch_size=args.batch_size, sampler=train_sampler, num_workers=3, pin_memory=False)
         trainloader_remain = data.DataLoader(train_dataset,
-                        batch_size=args.batch_size, sampler=train_remain_sampler, num_workers=3, pin_memory=True)
+                        batch_size=args.batch_size, sampler=train_remain_sampler, num_workers=3, pin_memory=False)
         trainloader_gt = data.DataLoader(train_gt_dataset,
-                        batch_size=args.batch_size, sampler=train_gt_sampler, num_workers=3, pin_memory=True)
+                        batch_size=args.batch_size, sampler=train_gt_sampler, num_workers=3, pin_memory=False)
 
         trainloader_remain_iter = enumerate(trainloader_remain)
 
