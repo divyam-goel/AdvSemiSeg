@@ -210,10 +210,10 @@ def main():
     # only copy the params that exist in current model (caffe-like)
     new_params = model.state_dict().copy()
     for name, param in new_params.items():
-        print (name)
+#        print (name)
         if name in saved_state_dict and param.size() == saved_state_dict[name].size():
             new_params[name].copy_(saved_state_dict[name])
-            print('copy {}'.format(name))
+#            print('copy {}'.format(name))
     model.load_state_dict(new_params)
 
 
@@ -390,6 +390,7 @@ def main():
                 _, batch = next(trainloader_iter)
 
             images, labels, _, _ = batch
+            print(labels[0][100])
             images = Variable(images).cuda(args.gpu)
             ignore_mask = (labels.numpy() == 255)
             pred = interp(model(images))
