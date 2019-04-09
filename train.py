@@ -329,10 +329,10 @@ def main():
             # do semi first
             if (args.lambda_semi > 0 or args.lambda_semi_adv > 0 ) and i_iter >= args.semi_start_adv :
                 try:
-                    _, batch = trainloader_remain_iter.next()
+                    _, batch = next(trainloader_remain_iter)
                 except:
                     trainloader_remain_iter = enumerate(trainloader_remain)
-                    _, batch = trainloader_remain_iter.next()
+                    _, batch = next(trainloader_remain_iter)
 
                 # only access to img
                 images, _, _, _ = batch
@@ -384,10 +384,10 @@ def main():
             # train with source
 
             try:
-                _, batch = trainloader_iter.next()
+                _, batch = next(trainloader_iter)
             except:
                 trainloader_iter = enumerate(trainloader)
-                _, batch = trainloader_iter.next()
+                _, batch = next(trainloader_iter)
 
             images, labels, _, _ = batch
             images = Variable(images).cuda(args.gpu)
@@ -432,10 +432,10 @@ def main():
             # train with gt
             # get gt labels
             try:
-                _, batch = trainloader_gt_iter.next()
+                _, batch = next(trainloader_gt_iter)
             except:
                 trainloader_gt_iter = enumerate(trainloader_gt)
-                _, batch = trainloader_gt_iter.next()
+                _, batch = next(trainloader_gt_iter)
 
             _, labels_gt, _, _ = batch
             D_gt_v = Variable(one_hot(labels_gt)).cuda(args.gpu)
