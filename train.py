@@ -256,7 +256,7 @@ def main():
             train_ids = pickle.load(open(args.partial_id))
             print('loading train ids from {}'.format(args.partial_id))
         else:
-            train_ids = range(train_dataset_size)
+            train_ids = list(range(train_dataset_size))
             np.random.shuffle(train_ids)
 
         pickle.dump(train_ids, open(osp.join(args.snapshot_dir, 'train_id.pkl'), 'wb'))
