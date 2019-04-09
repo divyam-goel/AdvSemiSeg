@@ -351,7 +351,7 @@ def main():
                 loss_semi_adv = loss_semi_adv/args.iter_size
 
                 #loss_semi_adv.backward()
-                loss_semi_adv_value += loss_semi_adv.data.cpu().numpy()[0]/args.lambda_semi_adv
+                loss_semi_adv_value += loss_semi_adv.data.cpu().numpy()/args.lambda_semi_adv
 
                 if args.lambda_semi <= 0 or i_iter < args.semi_start:
                     loss_semi_adv.backward()
@@ -373,7 +373,7 @@ def main():
 
                         loss_semi = args.lambda_semi * loss_calc(pred, semi_gt, args.gpu)
                         loss_semi = loss_semi/args.iter_size
-                        loss_semi_value += loss_semi.data.cpu().numpy()[0]/args.lambda_semi
+                        loss_semi_value += loss_semi.data.cpu().numpy()/args.lambda_semi
                         loss_semi += loss_semi_adv
                         loss_semi.backward()
 
@@ -405,8 +405,8 @@ def main():
             # proper normalization
             loss = loss/args.iter_size
             loss.backward()
-            loss_seg_value += loss_seg.data.cpu().numpy()[0]/args.iter_size
-            loss_adv_pred_value += loss_adv_pred.data.cpu().numpy()[0]/args.iter_size
+            loss_seg_value += loss_seg.data.cpu().numpy()/args.iter_size
+            loss_adv_pred_value += loss_adv_pred.data.cpu().numpy()/args.iter_size
 
 
             # train D
@@ -426,7 +426,7 @@ def main():
             loss_D = bce_loss(D_out, make_D_label(pred_label, ignore_mask))
             loss_D = loss_D/args.iter_size/2
             loss_D.backward()
-            loss_D_value += loss_D.data.cpu().numpy()[0]
+            loss_D_value += loss_D.data.cpu().numpy()
 
 
             # train with gt
@@ -445,7 +445,7 @@ def main():
             loss_D = bce_loss(D_out, make_D_label(gt_label, ignore_mask_gt))
             loss_D = loss_D/args.iter_size/2
             loss_D.backward()
-            loss_D_value += loss_D.data.cpu().numpy()[0]
+            loss_D_value += loss_D.data.cpu().numpy()
 
 
 
