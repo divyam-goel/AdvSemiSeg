@@ -80,6 +80,33 @@ class VOCDataSet(data.Dataset):
 
         return image.copy(), label.copy(), np.array(size), name
 
+        def temp():
+            datafiles = self.files[index]
+            image = cv2.imread(datafiles["img"], cv2.IMREAD_COLOR)
+            label = cv2.imread(datafiles["label"], cv2.IMREAD_GRAYSCALE)
+            size = image.shape
+            name = datafiles["name"]
+            if self.scale:
+                image, label = self.generate_scale_label(image, label)
+            image = np.asarray(image, np.float32)
+            image -= self.mean
+            img_h, img_w = label.shape
+            pad_h = max(self.crop_h - img_h, 0)
+            pad_w = max(self.crop_w - img_w, 0)
+            if pad_h > 0 or pad_w > 0:
+                img_pad = cv2.copyMakeBorder(image, 0, pad_h, 0,
+                    pad_w, cv2.BORDER_CONSTANT,
+                    value=(0.0, 0.0, 0.0))
+                label_pad = cv2.copyMakeBorder(label, 0, pad_h, 0,
+                    pad_w, cv2.BORDER_CONSTANT,
+                    value=(self.ignore_label,))
+            else:
+                img_pad, label_pad = image, label
+
+            img_h, img_w = label_pad.shape
+            print("Height: {}, Width: {}".format(img_h, img_w))
+            return
+
 
 class VOCGTDataSet(data.Dataset):
     def __init__(self, root, list_path, max_iters=None, crop_size=(321, 321), mean=(128, 128, 128), scale=True, mirror=True, ignore_label=255):
