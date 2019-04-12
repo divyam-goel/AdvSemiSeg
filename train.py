@@ -390,7 +390,6 @@ def main():
                 _, batch = next(trainloader_iter)
 
             images, labels, _, _ = batch
-            print(labels[0][100])
             images = Variable(images).cuda(args.gpu)
             ignore_mask = (labels.numpy() == 255)
             pred = interp(model(images))
