@@ -10,7 +10,7 @@ snapshot*
 result*
 *.swp
 *.log
-
+*.png
 # dataset
 dataset/VOC2012
 
